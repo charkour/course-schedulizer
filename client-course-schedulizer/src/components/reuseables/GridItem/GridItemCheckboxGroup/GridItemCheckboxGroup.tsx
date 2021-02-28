@@ -10,7 +10,6 @@ import {
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useInput } from "utilities";
-import "./GridItemCheckboxGroup.scss";
 
 interface GridItemCheckboxGroup {
   label: string;

@@ -2,7 +2,6 @@ import { Grid, StandardTextFieldProps, TextField } from "@material-ui/core";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { useInput } from "utilities";
-import "./GridItemTextField.scss";
 
 interface GridItemTextField {
   label: string;

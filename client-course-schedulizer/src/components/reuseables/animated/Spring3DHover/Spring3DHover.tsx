@@ -2,8 +2,8 @@ import { NewTabLink } from "components";
 import Image from "material-ui-image";
 import React from "react";
 import { animated, useSpring } from "react-spring";
-import { TeamMember } from "utilities";
-import { calc, trans } from ".";
+import type { TeamMember } from "utilities";
+import { calc, trans } from "./";
 import "./Spring3DHover.scss";
 
 interface Spring3DCard {

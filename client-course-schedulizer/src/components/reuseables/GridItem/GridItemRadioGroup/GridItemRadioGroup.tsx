@@ -9,7 +9,6 @@ import {
 import { camelCase } from "lodash";
 import React, { ChangeEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import "./GridItemRadioGroup.scss";
 
 interface GridItemRadioGroup {
   defaultValue: string;

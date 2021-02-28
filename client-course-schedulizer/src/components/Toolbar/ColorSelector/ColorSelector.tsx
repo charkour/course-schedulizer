@@ -1,6 +1,5 @@
 import { InputLabel, MenuItem, Select } from "@material-ui/core";
 import React, { ChangeEvent, useState } from "react";
-import "./ColorSelector.scss";
 
 enum ColorBy {
   Level,

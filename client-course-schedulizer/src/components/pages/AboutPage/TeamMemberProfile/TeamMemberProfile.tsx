@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { Spring3DHover } from "components";
 import React from "react";
-import { TeamMember } from "utilities";
+import type { TeamMember } from "utilities";
 
 interface TeamMemberProfile {
   member: TeamMember;

@@ -1,11 +1,11 @@
-import { CalendarOptions, EventClickArg } from "@fullcalendar/react";
+import type { CalendarOptions, EventClickArg } from "@fullcalendar/react";
 import { Popover } from "@material-ui/core";
 import { AddSectionPopover, AsyncComponent, Calendar, ScheduleToolbar } from "components";
 import { bindPopover, usePopupState } from "material-ui-popup-state/hooks";
 import React, { useCallback, useContext, useMemo, useState } from "react";
 import Stick from "react-stick";
 import StickyNode from "react-stickynode";
-import { CourseSectionMeeting } from "utilities";
+import type { CourseSectionMeeting } from "utilities";
 import { AppContext, ScheduleContext } from "utilities/contexts";
 import {
   filterEventsByTerm,

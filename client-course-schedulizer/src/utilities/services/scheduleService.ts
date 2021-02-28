@@ -1,4 +1,4 @@
-import { EventInput } from "@fullcalendar/react";
+import type { EventInput } from "@fullcalendar/react";
 import { filter, flatten, forEach, forOwn, map, maxBy, minBy, range } from "lodash";
 import moment from "moment";
 import { enumArray } from "utilities";

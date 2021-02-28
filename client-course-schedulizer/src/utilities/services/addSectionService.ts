@@ -19,6 +19,7 @@ import {
   Section,
   SemesterLength,
   SemesterLengthOption,
+  Term,
 } from "utilities/interfaces";
 
 // Defines interface for the section popover input
@@ -31,10 +32,10 @@ export interface SectionInput {
   duration: Meeting["duration"];
   facultyHours: Section["facultyHours"];
   globalMax: Section["globalMax"];
-  half: Half;
+  halfSemester: Half;
   instructionalMethod: Section["instructionalMethod"];
   instructor: Instructor;
-  intensive?: Intensive;
+  intensiveSemester?: Intensive;
   localMax: Section["localMax"];
   location: string;
   name: Course["name"];
@@ -49,6 +50,13 @@ export interface SectionInput {
   term: Section["term"];
   used: Section["used"];
   year: string; // Assume string till yearCase() decides
+}
+
+export interface NonTeachingLoadInput {
+  activity: Section["instructionalMethod"];
+  facultyHours: Section["facultyHours"];
+  instructor: Instructor;
+  terms: Term[];
 }
 
 export const convertFromSemesterLength = (sl: SemesterLength | undefined): SemesterLengthOption => {
@@ -107,7 +115,9 @@ export const getSection = (
   const course = getCourse(schedule, prefixes, courseNumber);
   const sections = filter(course?.sections, (section) => {
     return (
-      section.letter === letter && section.term === term && section.instructors === instructors
+      section.letter === letter &&
+      section.term === term &&
+      isEqual(section.instructors, instructors)
     );
   });
   return sections.length > 0 ? sections[0] : undefined;
@@ -128,6 +138,7 @@ const removeSection = (
       );
     },
   );
+  // TODO: Delete course if no sections left?
 };
 
 /* Used to map the input from the popover form to the
@@ -141,7 +152,9 @@ export const mapInputToInternalTypes = (data: SectionInput) => {
 
 const createNewSectionFromInput = (data: SectionInput): Section => {
   const location = locationCase(data.location);
-  const semesterType = convertToSemesterLength(data.intensive || data.half || data.semesterLength);
+  const semesterType = convertToSemesterLength(
+    data.intensiveSemester || data.halfSemester || data.semesterLength,
+  );
 
   const building = location[0];
   const roomNumber = location[1];
@@ -216,17 +229,17 @@ export const handleOldSection = (
 
     // Remove the old version of the Section
     if (removeOldSection) {
-      removeOldSectionFromSchedule(oldData, schedule, oldSection);
+      removeSectionFromSchedule(oldData, schedule, oldSection);
     }
   }
 };
 
-const removeOldSectionFromSchedule = (
-  oldData: CourseSectionMeeting | undefined,
+export const removeSectionFromSchedule = (
+  data: CourseSectionMeeting | undefined,
   schedule: Schedule,
-  oldSection: Section,
+  section: Section,
 ) => {
-  const oldCourse = oldData?.course;
+  const oldCourse = data?.course;
   const courseIndex = indexOf(schedule.courses, oldCourse);
-  removeSection(schedule, oldSection.letter, oldSection.term, oldSection.instructors, courseIndex);
+  removeSection(schedule, section.letter, section.term, section.instructors, courseIndex);
 };

@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+// import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, Grid, InputAdornment, Typography } from "@material-ui/core";
 import { GridItemCheckboxGroup, GridItemRadioGroup, GridItemTextField } from "components";
 import moment from "moment";
@@ -9,6 +9,7 @@ import {
   convertFromSemesterLength,
   SectionInput,
   useAddSectionToSchedule,
+  useDeleteSectionFromSchedule,
 } from "utilities";
 import {
   CourseSectionMeeting,
@@ -31,16 +32,23 @@ const SPACING = 2;
 export const AddSectionPopover = ({ values }: AddSectionPopover) => {
   const methods = useForm<SectionInput>({
     criteriaMode: "all",
-    resolver: yupResolver(addSectionSchema),
+    // resolver: yupResolver(addSectionSchema),
   });
   const [semesterLength, setSemesterLength] = useState<SemesterLengthOption>(
-    convertFromSemesterLength(values?.section.semesterLength).toLowerCase() as SemesterLengthOption,
+    convertFromSemesterLength(values?.section.semesterLength),
   );
   const { addSectionToSchedule } = useAddSectionToSchedule();
+  const { deleteSectionFromSchedule } = useDeleteSectionFromSchedule();
 
   const onSubmit = (removeOldSection: boolean) => {
     return (data: SectionInput) => {
       addSectionToSchedule(data, values, removeOldSection);
+    };
+  };
+
+  const deleteSection = () => {
+    return () => {
+      deleteSectionFromSchedule(values);
     };
   };
 
@@ -57,6 +65,10 @@ export const AddSectionPopover = ({ values }: AddSectionPopover) => {
     (values && `${values?.meeting.location.building} ${values?.meeting.location.roomNumber}`) ||
     ""
   ).trim();
+  let defaultTerm = values?.section.term;
+  if (Array.isArray(defaultTerm)) {
+    [defaultTerm] = defaultTerm;
+  }
 
   const buttons = () => {
     const addTitle = values ? "Add New Section" : "Add Section";
@@ -67,6 +79,7 @@ export const AddSectionPopover = ({ values }: AddSectionPopover) => {
             className="update-button"
             color="primary"
             onClick={methods.handleSubmit(onSubmit(true))}
+            type="submit"
             variant="contained"
           >
             Update Section
@@ -74,12 +87,23 @@ export const AddSectionPopover = ({ values }: AddSectionPopover) => {
         )}
         <Button
           className="add-button"
-          color={values ? "secondary" : "primary"}
+          color="primary"
           onClick={methods.handleSubmit(onSubmit(false))}
+          type="submit"
           variant="contained"
         >
           {addTitle}
         </Button>
+        {values && (
+          <Button
+            className="delete-button"
+            color="secondary"
+            onClick={methods.handleSubmit(deleteSection())}
+            variant="contained"
+          >
+            Delete Section
+          </Button>
+        )}
       </>
     );
   };
@@ -181,7 +205,7 @@ export const AddSectionPopover = ({ values }: AddSectionPopover) => {
             value={values?.meeting.days}
           />
           <GridItemRadioGroup
-            defaultValue={values?.section.term || Term.Fall}
+            defaultValue={defaultTerm || Term.Fall}
             label="Term"
             options={Object.values(Term)}
           />
@@ -194,7 +218,13 @@ export const AddSectionPopover = ({ values }: AddSectionPopover) => {
           <Grid item xs>
             {isHalfSemester && (
               <GridItemRadioGroup
-                defaultValue={values?.section.semesterLength || SemesterLength.HalfFirst}
+                defaultValue={
+                  values?.section.semesterLength &&
+                  convertFromSemesterLength(values?.section.semesterLength) ===
+                    SemesterLengthOption.HalfSemester
+                    ? values?.section.semesterLength
+                    : SemesterLength.HalfFirst
+                }
                 label="Half Semester"
                 options={Object.values(SemesterLength).filter((h) => {
                   return Object.values(Half).includes(h);
@@ -203,7 +233,13 @@ export const AddSectionPopover = ({ values }: AddSectionPopover) => {
             )}
             {isIntensiveSemester && (
               <GridItemRadioGroup
-                defaultValue={values?.section.semesterLength || SemesterLength.IntensiveA}
+                defaultValue={
+                  values?.section.semesterLength &&
+                  convertFromSemesterLength(values?.section.semesterLength) ===
+                    SemesterLengthOption.IntensiveSemester
+                    ? values?.section.semesterLength
+                    : SemesterLength.IntensiveA
+                }
                 label="Intensive Semester"
                 options={Object.values(SemesterLength).filter((i) => {
                   return Object.values(Intensive).includes(i);
