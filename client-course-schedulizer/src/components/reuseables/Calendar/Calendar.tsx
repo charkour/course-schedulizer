@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-// import type { CalendarOptions } from "@fullcalendar/common";
+// https://github.com/snowpackjs/snowpack/discussions/1207
+import type { CalendarOptions } from "@fullcalendar/common";
+import "@fullcalendar/core/vdom.js";
 import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -7,7 +9,7 @@ import React from "react";
 import { INITIAL_DATE } from "utilities/constants";
 import "./Calendar.scss";
 
-export const Calendar = (props: any) => {
+export const Calendar = (props: CalendarOptions) => {
   return (
     <>
       <FullCalendar {...props} />
