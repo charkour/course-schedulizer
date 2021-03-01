@@ -5,3 +5,8 @@ declare module "react-stick" {
   const Stick: any;
   export default Stick;
 }
+
+declare module "*.png" {
+  const ref: string;
+  export default ref;
+}
