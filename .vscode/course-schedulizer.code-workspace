@@ -12,7 +12,11 @@
       // "source.organizeImports": true,
       "source.fixAll": true
     },
-    "eslint.workingDirectories": [{ "mode": "auto" }]
+    "eslint.workingDirectories": [
+      {
+        "mode": "auto"
+      }
+    ]
   },
   "extensions": {
     "recommendations": [

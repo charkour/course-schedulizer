@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .snowpack
+# Microsoft "lock" files. https://stackoverflow.com/a/59451263/9931154
+[~][$]*
