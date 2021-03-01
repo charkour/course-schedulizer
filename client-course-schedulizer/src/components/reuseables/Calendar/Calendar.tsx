@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import FullCalendar from "01/../@fullcalendar/react";
 // import type { CalendarOptions } from "@fullcalendar/common";
+import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import timeGridPlugin from "@fullcalendar/timegrid";
 import React from "react";

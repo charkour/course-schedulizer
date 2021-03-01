@@ -6,7 +6,7 @@ import "./styles/index.scss";
 
 const run = async () => {
   // https://github.com/snowpackjs/snowpack/discussions/1207
-  // await import("@fullcalendar/core/vdom.js");
+  await import("@fullcalendar/core/vdom.js");
   ReactDOM.render(
     <React.StrictMode>
       <App />
