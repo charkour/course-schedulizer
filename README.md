@@ -1,5 +1,3 @@
-# <p align="center"><img src="./CourseSchedulizerMediaFinal.png" alt="Course Schedulizer" title="Course Schedulizer"/></p>
-
 # Compare branch with senior-knight:develop
 
 📝 **Create semester schedules without stress.** This is the monorepository for the [`senior-knights/course-schedulizer`](https://github.com/senior-knights/course-schedulizer) project. For more information about the application, please view the [About Page](https://senior-knights.github.io/course-schedulizer/#/about) on our website. For help using the application, visit our [Help Page](https://senior-knights.github.io/course-schedulizer/#/help) (once we make it).
